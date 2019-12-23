@@ -64,7 +64,8 @@ public class CalendarServer {
 					+"endTime integer,"
 					+"detail TEXT,"
 					+"alarm integer,"
-					+"remindTime integer"
+					+"remindTime integer,"
+					+"editTime integer"
 					+")";
 			s.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -200,11 +201,17 @@ class ClientThread extends Thread{
 		String response=new String();
 
 		try {
-			int memoID=getMaxKey()+1;
+			int memoID;
+			//如果信息中包含id信息则采用，否则+1
+			if(dataMap.containsKey("memoID")) {
+				memoID=Integer.valueOf(dataMap.get("memoID"));
+			}else {
+				memoID=getMaxKey()+1;
+			}
 			s = CalendarServer.conn.prepareStatement ( 
 					"INSERT INTO todolist ("
-							+ "title,address,startTime,endTime,detail,alarm,remindTime,memoID)"
-							+ "VALUES(?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+							+ "title,address,startTime,endTime,detail,alarm,remindTime,memoID,editTime)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			s.setString (1, dataMap.get("title")); 
 			s.setString (2, dataMap.get("address"));
 			s.setString(3, dataMap.get("startTime")); 
@@ -212,8 +219,8 @@ class ClientThread extends Thread{
 			s.setString (5, dataMap.get("detail")); 
 			s.setString (6, dataMap.get("alarm"));
 			s.setString (7, dataMap.get("remindTime")); 
-			
 			s.setInt(8, memoID); 
+			s.setString (9, dataMap.get("editTime")); 
 			s.executeUpdate();
 			
 //			ResultSet rs=s.getGeneratedKeys();//获取自动生成的主键

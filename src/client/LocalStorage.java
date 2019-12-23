@@ -40,7 +40,7 @@ public class LocalStorage {
 		recordsMap.put(id,newRecord);
 		writeFile();
 	}
-	
+
 	//按id获取
 	Map<String,String> getByID(int id){
 		return recordsMap.get(id);
@@ -60,7 +60,7 @@ public class LocalStorage {
 		}
 		return results;
 	}
-	
+
 	//写入文件
 	void writeFile() {
 		try {
@@ -92,14 +92,41 @@ public class LocalStorage {
 		}finally {
 			try {
 				if(in!=null) {
-				in.close();
+					in.close();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
+	//数据库同步
+	void sync() {
+		Vector<Map<String,String>> serverRecords=
+				CalendarClient.Obj.getByDate(0, Long.valueOf("9999999999999"));
+		Map<Integer, Map<String, String>>serverMap=new HashMap<Integer, Map<String,String>>();
+		//将服务器数据转成map
+		for (Map<String, String> map : serverRecords) {
+			serverMap.put(Integer.valueOf(map.get("memoID")),map);
+		}
+		//
+		for (int key : recordsMap.keySet()) {
+			//有相同id的记录
+			if(serverMap.containsKey(key)) {
+				//服务器修改时间早
+				if(Long.valueOf(serverMap.get(key).get("editTime"))
+						< Long.valueOf(recordsMap.get(key).get("editTime"))) {
+					CalendarClient.Obj.updateRecord(recordsMap.get(key));//更新服务器记录
+				}//服务器修改时间晚
+				else if (Long.valueOf(serverMap.get(key).get("editTime"))
+						> Long.valueOf(recordsMap.get(key).get("editTime"))) {
+					LocalStorage.Obj.updateRecord(key, serverMap.get(key));//覆盖本地记录
+				}
+			}else {//本地有服务器没有的记录
+				CalendarClient.Obj.addRecord(recordsMap.get(key));
+			}
+		}
+	}
 	//获取最大key
 	private int getMaxKey() {
 		int maxKey=0;

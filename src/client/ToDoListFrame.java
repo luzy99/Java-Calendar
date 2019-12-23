@@ -335,7 +335,7 @@ public class ToDoListFrame extends JFrame{
 				if(remindTime==-1) {
 					remindTimeStamp=startTimeStamp;
 				}
-
+				
 				Map<String,String> newRecord=new HashMap<String, String>();
 				newRecord.put("title",title);
 				newRecord.put("address",address);
@@ -344,6 +344,7 @@ public class ToDoListFrame extends JFrame{
 				newRecord.put("endTime",String.valueOf(endTimeStamp));
 				newRecord.put("remindTime",String.valueOf(remindTimeStamp));
 				newRecord.put("alarm",String.valueOf(remindTime==-1?"0":"1"));
+				newRecord.put("editTime",String.valueOf(System.currentTimeMillis()));//修改时间
 				
 				//写入数据库
 				if(memoID==-1) {//新增

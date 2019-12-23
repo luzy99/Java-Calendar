@@ -110,7 +110,7 @@ public class TaskListPanel extends JPanel{
 		//从本地获取
 		Vector<Map<String, String>> records =LocalStorage.Obj.getByDate(start, end);
 		iDList.clear();
-		System.out.println(records);
+		//System.out.println(records);
 		for(Map<String, String> record: records) {
 			taskStrs.add(record.get("title"));
 			iDList.add(Integer.valueOf(record.get("memoID")));
