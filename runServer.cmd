@@ -1,0 +1,1 @@
+java -classpath "./bin;./bin/sqlite-jdbc-3.27.2.1.jar" server.CalendarServer
