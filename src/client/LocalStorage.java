@@ -114,8 +114,9 @@ public class LocalStorage {
 		for (Map<String, String> map : serverRecords) {
 			serverMap.put(Integer.valueOf(map.get("memoID")),map);
 		}
-		
+
 		//本地向服务器同步
+		//同步新增
 		for (int key : recordsMap.keySet()) {
 			//有相同id的记录
 			if(serverMap.containsKey(key)) {
@@ -132,6 +133,14 @@ public class LocalStorage {
 				CalendarClient.Obj.addRecord(recordsMap.get(key));//添加服务器记录
 			}
 		}
+		//同步删除
+		for(int key:serverMap.keySet()) {
+			//本地已被删除的记录
+			if(!recordsMap.containsKey(key)) {
+				CalendarClient.Obj.deleteRecord(key);
+			}
+		}
+
 	}
 	//获取最大key
 	private int getMaxKey() {
