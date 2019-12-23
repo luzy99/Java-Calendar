@@ -78,6 +78,7 @@ public class MainWindow extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				MyTimer t=new MyTimer();
+				LocalStorage.Obj.sync();
 				new MainWindow(t);    //创建一个实例化对象
 			}
 		});

@@ -102,6 +102,11 @@ public class LocalStorage {
 
 	//数据库同步
 	void sync() {
+		//连接失败则不同步
+		if(CalendarClient.Obj.connect()==false) {
+			return;
+		}
+		loadFile();
 		Vector<Map<String,String>> serverRecords=
 				CalendarClient.Obj.getByDate(0, Long.valueOf("9999999999999"));
 		Map<Integer, Map<String, String>>serverMap=new HashMap<Integer, Map<String,String>>();
@@ -109,7 +114,8 @@ public class LocalStorage {
 		for (Map<String, String> map : serverRecords) {
 			serverMap.put(Integer.valueOf(map.get("memoID")),map);
 		}
-		//
+		
+		//本地向服务器同步
 		for (int key : recordsMap.keySet()) {
 			//有相同id的记录
 			if(serverMap.containsKey(key)) {
@@ -120,10 +126,10 @@ public class LocalStorage {
 				}//服务器修改时间晚
 				else if (Long.valueOf(serverMap.get(key).get("editTime"))
 						> Long.valueOf(recordsMap.get(key).get("editTime"))) {
-					LocalStorage.Obj.updateRecord(key, serverMap.get(key));//覆盖本地记录
+					updateRecord(key, serverMap.get(key));//覆盖本地记录
 				}
 			}else {//本地有服务器没有的记录
-				CalendarClient.Obj.addRecord(recordsMap.get(key));
+				CalendarClient.Obj.addRecord(recordsMap.get(key));//添加服务器记录
 			}
 		}
 	}

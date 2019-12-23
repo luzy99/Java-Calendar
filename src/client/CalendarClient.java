@@ -39,17 +39,19 @@ public class CalendarClient {
 	public CalendarClient() {
 	}
 	//连接服务器
-	public void connect() {
-		if(status==false)return;
-			try {
-				client=new Socket(serverAddr,serverPort);
-				System.out.println("Client: "+client);
-				out=new PrintWriter(client.getOutputStream());
-				status=true;
-			} catch (Exception e) {
-				e.printStackTrace();
-				status=false;
-			}
+	public boolean connect() {
+		if(status==false)return false;
+		try {
+			client=new Socket(serverAddr,serverPort);
+			System.out.println("Client: "+client);
+			out=new PrintWriter(client.getOutputStream());
+			status=true;
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			status=false;
+		}
+		return false;
 	}
 	//按ID获取
 	public Map<String, String> getByID(int id) {
@@ -124,7 +126,7 @@ public class CalendarClient {
 		}
 		return result;
 	}
-	
+
 	//修改记录
 	public boolean updateRecord(Map<String,String> newRecord) {
 		connect();
@@ -147,7 +149,7 @@ public class CalendarClient {
 		}
 		return false;
 	}
-	
+
 	//删除记录
 	public boolean deleteRecord(int id) {
 		connect();
@@ -169,7 +171,7 @@ public class CalendarClient {
 		}
 		return false;
 	}
-	
+
 	public static void main(String[] args) {
 
 		CalendarClient c=new CalendarClient();
