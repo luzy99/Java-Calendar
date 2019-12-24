@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.Vector;
 
 public class LocalStorage {
-	Map<Integer, Map<String, String>> recordsMap;
+	//key=-1记录上次操作信息
+	Map<Integer, Map<String, String>> recordsMap;//<-1,<"lastOpt"="ADD","lastTime"="xxx">>
+	Map<String, String> lastOptMap=new HashMap<String, String>();
 	String path="./userdata.dat";
 	ObjectOutputStream out;
 	ObjectInputStream in;
@@ -27,17 +29,33 @@ public class LocalStorage {
 		int memoID=getMaxKey()+1;
 		newRecord.put("memoID",String.valueOf(memoID));
 		recordsMap.put(memoID,newRecord);
+
+		//更新操作记录
+		if(lastOptMap==null) {lastOptMap=new HashMap<String, String>();}
+		lastOptMap.put("lastOpt","ADD");
+		lastOptMap.put("lastTime",String.valueOf(System.currentTimeMillis()));
+		recordsMap.put(-1,lastOptMap);
 		writeFile();
 		return memoID;
 	}
 	//删除一条记录
 	void deleteRecord(int id) {
 		recordsMap.remove(id);
+
+		//更新操作记录
+		lastOptMap.put("lastOpt","DELETE");
+		lastOptMap.put("lastTime",String.valueOf(System.currentTimeMillis()));
+		recordsMap.put(-1,lastOptMap);
 		writeFile();
 	}
 	//修改记录
 	void updateRecord(int id,Map<String, String> newRecord) {
 		recordsMap.put(id,newRecord);
+
+		//更新操作记录
+		lastOptMap.put("lastOpt","UPDATE");
+		lastOptMap.put("lastTime",String.valueOf(System.currentTimeMillis()));
+		recordsMap.put(-1,lastOptMap);
 		writeFile();
 	}
 
@@ -52,6 +70,7 @@ public class LocalStorage {
 		}
 		Vector<Map<String, String>> results=new Vector<Map<String,String>>();
 		for (int id : recordsMap.keySet()) {
+			if(id==-1)continue;//跳过key=1
 			Map<String, String> currentRecord=recordsMap.get(id);
 			if(Long.valueOf(currentRecord.get("startTime"))<end
 					&&Long.valueOf(currentRecord.get("endTime"))>start) {
@@ -66,6 +85,7 @@ public class LocalStorage {
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(path));
 			out.writeObject(recordsMap);
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
@@ -107,6 +127,10 @@ public class LocalStorage {
 			return;
 		}
 		loadFile();
+		lastOptMap=recordsMap.get(-1);
+		//获取服务器操作记录
+		Map<String,String> serverLastOpt=CalendarClient.Obj.lastOpt();
+
 		Vector<Map<String,String>> serverRecords=
 				CalendarClient.Obj.getByDate(0, Long.valueOf("9999999999999"));
 		Map<Integer, Map<String, String>>serverMap=new HashMap<Integer, Map<String,String>>();
@@ -115,30 +139,44 @@ public class LocalStorage {
 			serverMap.put(Integer.valueOf(map.get("memoID")),map);
 		}
 
-		//本地向服务器同步
-		//同步新增
-		for (int key : recordsMap.keySet()) {
-			//有相同id的记录
-			if(serverMap.containsKey(key)) {
-				//服务器修改时间早
-				if(Long.valueOf(serverMap.get(key).get("editTime"))
-						< Long.valueOf(recordsMap.get(key).get("editTime"))) {
-					CalendarClient.Obj.updateRecord(recordsMap.get(key));//更新服务器记录
-				}//服务器修改时间晚
-				else if (Long.valueOf(serverMap.get(key).get("editTime"))
-						> Long.valueOf(recordsMap.get(key).get("editTime"))) {
-					updateRecord(key, serverMap.get(key));//覆盖本地记录
+		//服务器最后修改时间比本地早（本地向服务器同步）
+		if(lastOptMap!=null
+				&&(serverLastOpt.isEmpty()
+						||Long.valueOf(serverLastOpt.get("lastTime"))
+							<Long.valueOf(lastOptMap.get("lastTime")))){
+			//本地向服务器同步
+			//同步新增
+			for (int key : recordsMap.keySet()) {
+				if(key==-1)continue;//key不等于-1！！！
+				//有相同id的记录
+				if(serverMap.containsKey(key)) {
+					//服务器修改时间早
+					if(Long.valueOf(serverMap.get(key).get("editTime"))
+							< Long.valueOf(recordsMap.get(key).get("editTime"))) {
+						CalendarClient.Obj.updateRecord(recordsMap.get(key));//更新服务器记录
+					}//服务器修改时间晚
+					else if (Long.valueOf(serverMap.get(key).get("editTime"))
+							> Long.valueOf(recordsMap.get(key).get("editTime"))) {
+						updateRecord(key, serverMap.get(key));//覆盖本地记录
+					}
+				}else {//本地有服务器没有的记录
+					CalendarClient.Obj.addRecord(recordsMap.get(key));//添加服务器记录
 				}
-			}else {//本地有服务器没有的记录
-				CalendarClient.Obj.addRecord(recordsMap.get(key));//添加服务器记录
 			}
-		}
-		//同步删除
-		for(int key:serverMap.keySet()) {
-			//本地已被删除的记录
-			if(!recordsMap.containsKey(key)) {
-				CalendarClient.Obj.deleteRecord(key);
+			//同步删除
+			for(int key:serverMap.keySet()) {
+				//本地已被删除的记录
+				if(!recordsMap.containsKey(key)) {
+					CalendarClient.Obj.deleteRecord(key);
+				}
 			}
+		}else {
+			//服务器向本地同步
+			//覆盖本地记录
+			recordsMap.clear();
+			recordsMap.put(-1,lastOptMap);
+			recordsMap.putAll(serverMap);
+			writeFile();
 		}
 
 	}

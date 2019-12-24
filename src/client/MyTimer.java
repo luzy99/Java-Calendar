@@ -3,6 +3,8 @@ package client;
 import java.sql.PreparedStatement;
 import java.util.*;
 
+import javax.swing.JFrame;
+
 public class MyTimer{
 	//memoID,Timer
 	TreeMap<Integer, Timer> timers=new TreeMap<Integer, Timer>();
@@ -48,6 +50,9 @@ class AlarmTask extends TimerTask{
     
     @Override
     public void run() {
+    	JFrame alarmFrame=new JFrame("»’≥ÃÃ·–—");
+    	alarmFrame.setSize(400, 300);
+    	alarmFrame.setVisible(true);
         System.out.println(title);
         System.out.println(address);
     }

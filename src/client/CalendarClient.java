@@ -172,6 +172,30 @@ public class CalendarClient {
 		return false;
 	}
 
+	//获取服务器上次操作记录
+	public Map<String,String> lastOpt() {
+		connect();
+		Map<String,String> responseMap=new HashMap<String, String>();
+		String param="{type=lastOpt}";
+		out.println(param);
+		out.flush();
+		System.out.println("<-Send: "+param);
+
+		//接收返回信息
+		try {
+			in = client.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String response = br.readLine();
+			System.out.println("-> "+response);
+			if(!response.isBlank()) {
+			responseMap = stringToMap(response);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return responseMap;
+	}
+	
 	public static void main(String[] args) {
 
 		CalendarClient c=new CalendarClient();
