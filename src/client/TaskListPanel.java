@@ -23,6 +23,7 @@ public class TaskListPanel extends JPanel{
 	LunarCalendar lc=new LunarCalendar();
 	Vector<String> taskStrs =new Vector<String>();
 	JList<String> taskList=new JList<String>();
+	JScrollPane jsp;
 	
 	static JList<String> currentSelect;
 	
@@ -76,7 +77,7 @@ public class TaskListPanel extends JPanel{
 			}
 		});
 
-		JScrollPane jsp=new JScrollPane(taskList);
+		jsp=new JScrollPane(taskList);
 		JScrollBar jsb=new JScrollBar();
 		jsb.setPreferredSize(new Dimension(3, jsb.getPreferredSize().height));
 		jsp.setVerticalScrollBar(jsb);

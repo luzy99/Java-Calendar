@@ -79,7 +79,8 @@ public class MyCalendar extends JPanel implements ActionListener{
 					selectedButton=source;
 					calendar.set(Calendar.DATE, Integer.parseInt(selectedButton.getText()));
 					leftPanel.cal=calendar;
-					leftPanel.updateInfo();
+					leftPanel.updateLunar();
+					leftPanel.setTaskList();
 					
 					source.setSelect(true);
 					if(e.getClickCount()==2) {//Ë«»÷
@@ -154,6 +155,7 @@ public class MyCalendar extends JPanel implements ActionListener{
 		
 		if(today.get(Calendar.YEAR)==year&&today.get(Calendar.MONTH)==month) {
 			dayButtons[startDay+date-2].setNormalColor(todayColor);
+			selectedButton=dayButtons[startDay+date-2];
 		}
 		
 		setVisible(true);

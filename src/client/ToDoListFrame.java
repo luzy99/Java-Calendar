@@ -23,7 +23,7 @@ import javax.swing.text.JTextComponent;
 
 
 public class ToDoListFrame extends JFrame{
-	MyTimer timer=MainWindow.getTimer();
+	MyTimer timer=MyTimer.mytimer;
 	ImageIcon saveIcon=new ImageIcon("./src/icon/save.png");
 	ImageIcon delIcon=new ImageIcon("./src/icon/del.png");
 	Box verticalBox=Box.createVerticalBox();
@@ -230,7 +230,7 @@ public class ToDoListFrame extends JFrame{
 		//panel.add(Box.createVerticalGlue());
 		//nameEditPanel.setAlignmentX( Component.LEFT_ALIGNMENT);
 		//设置在屏幕的位置
-		this.setLocation(100,50);
+		this.setLocation(150,70);
 		//窗体大小
 		this.setSize(500,600);
 		//显示窗体

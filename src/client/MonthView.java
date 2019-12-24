@@ -46,30 +46,6 @@ public class MonthView extends JPanel implements ActionListener{
 		for(int i=0;i<35;i++){
 			dayPanels[i]=new TaskListPanel(this);
 			datePanel.add(dayPanels[i]);
-			
-			dayPanels[i].addMouseListener(new MouseListener() {
-				@Override
-				public void mouseReleased(MouseEvent e) {}
-				@Override
-				public void mousePressed(MouseEvent e) {}
-				@Override
-				public void mouseExited(MouseEvent e) {}
-				@Override
-				public void mouseEntered(MouseEvent e) {}
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(e.getClickCount()==2) {//双击
-						//创建新的窗口
-						JFrame frame = new JFrame(((TaskListPanel)e.getSource()).getToolTipText());
-						//设置在屏幕的位置
-						frame.setLocation(100,50);
-//						窗体大小
-						frame.setSize(500,500);
-//						显示窗体
-						frame.setVisible(true);
-					}
-				}
-			});
 		}
 		datePanel.setBackground(new Color(210,210,243));
 		//设置布局

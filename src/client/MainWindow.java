@@ -17,17 +17,16 @@ public class MainWindow extends JFrame
 
 	JPanel middle;
 	JPanel left;
-	static MyTimer myTimer;
+
 	Calendar cal=Calendar.getInstance();
 	Date date=cal.getTime();
 
 	static Connection conn = null;
-	static MyTimer getTimer() {return myTimer;}
-	public MainWindow(MyTimer t)
+	public MainWindow()
 	{
-		myTimer=t;
 		setTitle("My Calendar");    //设置显示窗口标题
 		setSize(880,660);    //设置窗口显示尺寸
+		setLocation(100,50);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    //设置窗口关闭
 
 		JPanel panel =new JPanel();
@@ -61,7 +60,7 @@ public class MainWindow extends JFrame
 		panel.add(left,BorderLayout.WEST);
 		panel.add(middle,BorderLayout.CENTER);
 		up.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 40));
-		left.setPreferredSize(new Dimension(180,MAXIMIZED_VERT));
+		left.setPreferredSize(new Dimension(190,MAXIMIZED_VERT));
 
 		setVisible(true);    //设置窗口是否可见
 	}
@@ -77,9 +76,8 @@ public class MainWindow extends JFrame
 		}
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				MyTimer t=new MyTimer();
 				LocalStorage.Obj.sync();
-				new MainWindow(t);    //创建一个实例化对象
+				new MainWindow();    //创建一个实例化对象
 			}
 		});
 	}
