@@ -63,13 +63,37 @@ public class MainWindow extends JFrame
 		left.setPreferredSize(new Dimension(190,MAXIMIZED_VERT));
 
 		setVisible(true);    //设置窗口是否可见
+		
+		reloadTimer();
 	}
+
+
+	//重新加载定时器
+	void reloadTimer() {
+		Calendar c=Calendar.getInstance();
+		long start=c.getTimeInMillis();
+		//从本地获取从现在起之后的日程
+		long end=Long.valueOf("9999999999999");
+		Vector<Map<String, String>> records =LocalStorage.Obj.getByDate(start, end);
+		for (Map<String, String> map : records) {
+			if(map.get("alarm").contentEquals("0")) {
+				records.remove(map);//将不提醒的删除
+			}
+		}
+		for (Map<String, String> map : records) {
+			MyTimer.mytimer.addTimer(
+					Integer.valueOf(map.get("memoID")), 
+					Long.valueOf(map.get("remindTime")), 
+					map.get("title"), map.get("address"), 
+					Long.valueOf(map.get("startTime")),
+					Long.valueOf(map.get("endTime")));
+		}
+	}
+	
 	public static void main(String[] agrs)
 	{
 		try {
 			String lookAndFeel = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-			//lookAndFeel = "com.sun.java.swing.plaf.mac.MacLookAndFeel";
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			UIManager.setLookAndFeel(lookAndFeel);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +114,7 @@ public class MainWindow extends JFrame
 				SimpleDateFormat sdf = new SimpleDateFormat("今天是yyyy年MM月dd日  HH:mm:ss");   
 				// 将日期转换为指定格式的字符串
 				String timeText = sdf.format(date); 
-				
+
 				timeLabel.setText(timeText);
 				// 将Calendar对象转换为Date对象
 				try {

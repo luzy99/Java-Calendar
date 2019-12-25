@@ -78,7 +78,7 @@ class AlarmTask extends TimerTask{
     	alarmFrame.setSize(400, 300);
     	alarmFrame.setLocation(400,200);
     	alarmFrame.setOpacity(0.9f);
-    	alarmFrame.setBackground(new Color(180,180,180,230));
+    	alarmFrame.setBackground(new Color(200,200,230,230));
     	alarmFrame.setAlwaysOnTop(true);
     	
     	Box verticalBox=Box.createVerticalBox();    //´´½¨×ÝÏòBoxÈÝÆ÷

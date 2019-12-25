@@ -66,6 +66,7 @@ public class LeftPanel extends JPanel{
 			}
 		});
 		verticalBox.add(newEvent);
+		verticalBox.add(Box.createVerticalStrut(5));
 
 		//当前日程
 		taskList.setForeground(Color.gray);
@@ -103,7 +104,9 @@ public class LeftPanel extends JPanel{
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsp.setBorder(null);
-		taskList.setBackground(new Color(0,0,0,0));
+		taskList.setBackground(new Color(52,152,219));
+		taskList.setForeground(Color.white);
+		taskList.setFont(new Font("微软雅黑", 0, 14));
 		
 		setTaskList();
 		//taskList.setMaximumSize(new Dimension(160,160));

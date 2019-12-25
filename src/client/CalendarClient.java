@@ -48,7 +48,8 @@ public class CalendarClient {
 			status=true;
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("连接服务器异常！");
 			status=false;
 		}
 		return false;
