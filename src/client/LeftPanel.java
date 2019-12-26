@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class LeftPanel extends JPanel{
 	static JList<String> currentSelect;
 	Vector<String> taskStrs =new Vector<String>();
 	ArrayList<Integer> iDList=new ArrayList<Integer>();
+	
+	static LeftPanel leftPanel;
 
 	public LeftPanel(MonthView my) {
 		monthView=my;
@@ -106,11 +109,11 @@ public class LeftPanel extends JPanel{
 		jsp.setBorder(null);
 		taskList.setBackground(new Color(52,152,219));
 		taskList.setForeground(Color.white);
-		taskList.setFont(new Font("微软雅黑", 0, 14));
+		taskList.setFont(new Font("微软雅黑", 0, 15));
 		
+		//更新当天日程
 		setTaskList();
-		//taskList.setMaximumSize(new Dimension(160,160));
-		//jsp.setMaximumSize(new Dimension(160,160));
+
 		verticalBox.add(jsp);
 		updateLunar();
 		this.setBackground(new Color(52,152,219));
@@ -134,8 +137,11 @@ public class LeftPanel extends JPanel{
 		Vector<Map<String, String>> records =LocalStorage.Obj.getByDate(start, end);
 		iDList.clear();
 		//System.out.println(records);
+		SimpleDateFormat timeFormat=new SimpleDateFormat("HH:mm");
 		for(Map<String, String> record: records) {
-			taskStrs.add(record.get("title"));
+			String startStr=timeFormat.format(Long.valueOf(record.get("startTime")));
+			String endStr=timeFormat.format(Long.valueOf(record.get("endTime")));
+			taskStrs.add(record.get("title")+" "+startStr+"-"+endStr);
 			iDList.add(Integer.valueOf(record.get("memoID")));
 		}
 		//添加日程

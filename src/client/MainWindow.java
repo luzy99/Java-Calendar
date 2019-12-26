@@ -55,7 +55,8 @@ public class MainWindow extends JFrame
 		th.start();
 
 		middle=new MonthView();
-		left=new LeftPanel((MonthView)middle);
+		LeftPanel.leftPanel=new LeftPanel((MonthView)middle);
+		left=LeftPanel.leftPanel;
 		panel.add(up,BorderLayout.NORTH);
 		panel.add(left,BorderLayout.WEST);
 		panel.add(middle,BorderLayout.CENTER);
@@ -63,7 +64,7 @@ public class MainWindow extends JFrame
 		left.setPreferredSize(new Dimension(190,MAXIMIZED_VERT));
 
 		setVisible(true);    //设置窗口是否可见
-		
+
 		reloadTimer();
 	}
 
@@ -75,10 +76,18 @@ public class MainWindow extends JFrame
 		//从本地获取从现在起之后的日程
 		long end=Long.valueOf("9999999999999");
 		Vector<Map<String, String>> records =LocalStorage.Obj.getByDate(start, end);
-		for (Map<String, String> map : records) {
-			if(map.get("alarm").contentEquals("0")) {
-				records.remove(map);//将不提醒的删除
-			}
+		//		for (Map<String, String> map : records) {
+		//			if(map.get("alarm").contentEquals("0")) {
+		//				records.remove(map);//将不提醒的删除
+		//			}
+		//		}
+
+		//使用迭代器方法，不会报错
+		Iterator<Map<String, String>> iterator = records.iterator();
+		while(iterator.hasNext()){
+			Map<String, String> map = iterator.next();
+			if(map.get("alarm").contentEquals("0"))
+				iterator.remove();   //将不提醒的删除
 		}
 		for (Map<String, String> map : records) {
 			MyTimer.mytimer.addTimer(
@@ -89,7 +98,7 @@ public class MainWindow extends JFrame
 					Long.valueOf(map.get("endTime")));
 		}
 	}
-	
+
 	public static void main(String[] agrs)
 	{
 		try {

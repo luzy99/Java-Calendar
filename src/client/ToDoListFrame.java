@@ -383,6 +383,7 @@ public class ToDoListFrame extends JFrame{
 				}
 				//刷新界面
 				monthView.setCalendar(monthView.calender);
+				LeftPanel.leftPanel.setTaskList();
 				dispose();
 			}
 			
@@ -399,6 +400,7 @@ public class ToDoListFrame extends JFrame{
 				}
 				//刷新界面
 				monthView.setCalendar(monthView.calender);
+				LeftPanel.leftPanel.setTaskList();
 				dispose();
 			}	
 		}

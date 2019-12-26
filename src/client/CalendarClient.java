@@ -105,7 +105,9 @@ public class CalendarClient {
 
 	//添加记录
 	public int addRecord(Map<String,String> newRecord) {
-		connect();
+		if(!connect()) {
+			return -1;
+		}
 		int result=-1;
 		String dataString=newRecord.toString();
 		String param=String.format("{type=add,%s}", 
@@ -130,7 +132,9 @@ public class CalendarClient {
 
 	//修改记录
 	public boolean updateRecord(Map<String,String> newRecord) {
-		connect();
+		if(!connect()) {
+			return false;
+		}
 		String dataString=newRecord.toString();
 		String param=String.format("{type=update,%s}", 
 				dataString.substring(1, dataString.length()-1));

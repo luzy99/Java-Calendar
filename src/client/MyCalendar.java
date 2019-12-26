@@ -85,7 +85,7 @@ public class MyCalendar extends JPanel implements ActionListener{
 					source.setSelect(true);
 					if(e.getClickCount()==2) {//双击
 						//创建新的窗口
-						JFrame frame = new ToDoListFrame(
+						new ToDoListFrame(
 								source.getToolTipText(),leftPanel.monthView,-1);
 						//source.getParent().setEnabled(false);
 					}

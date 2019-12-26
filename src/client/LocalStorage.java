@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -41,7 +43,9 @@ public class LocalStorage {
 	//删除一条记录
 	void deleteRecord(int id) {
 		recordsMap.remove(id);
-
+		if(lastOptMap==null) {
+			lastOptMap=new HashMap<String, String>();
+		}
 		//更新操作记录
 		lastOptMap.put("lastOpt","DELETE");
 		lastOptMap.put("lastTime",String.valueOf(System.currentTimeMillis()));
@@ -63,6 +67,19 @@ public class LocalStorage {
 	Map<String,String> getByID(int id){
 		return recordsMap.get(id);
 	}
+	//重写排序比较器
+	public static final Comparator<Map<String,String>> MAP_COMPARATOR = new Comparator<Map<String,String>>() {
+		@Override
+		public int compare(Map<String,String> m2, Map<String,String> m1) {
+			if (m1 == null || m1.get("startTime")==null) {
+				return -1;
+			}
+			if (m2 == null || m2.get("startTime")==null) {
+				return 1;
+			}
+			return (int) (Long.valueOf(m2.get("startTime"))/1000 - Long.valueOf(m1.get("startTime"))/1000);
+		}
+	};
 	//按日期获取
 	Vector<Map<String,String>> getByDate(long start,long end){
 		if(recordsMap==null) {
@@ -77,6 +94,7 @@ public class LocalStorage {
 				results.add(currentRecord);
 			}
 		}
+		Collections.sort(results, MAP_COMPARATOR);//按开始时间排序
 		return results;
 	}
 
@@ -143,7 +161,7 @@ public class LocalStorage {
 		if(lastOptMap!=null
 				&&(serverLastOpt.isEmpty()
 						||Long.valueOf(serverLastOpt.get("lastTime"))
-							<Long.valueOf(lastOptMap.get("lastTime")))){
+						<Long.valueOf(lastOptMap.get("lastTime")))){
 			//本地向服务器同步
 			//同步新增
 			for (int key : recordsMap.keySet()) {
