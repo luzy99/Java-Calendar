@@ -29,8 +29,8 @@ public class ToDoListFrame extends JFrame{
 	Box verticalBox=Box.createVerticalBox();
 	Box titleBox =Box.createHorizontalBox();
 
-	MyButton saveButton=new MyButton("ä¿å­˜",saveIcon);
-	MyButton delButton=new MyButton("åˆ é™¤",delIcon);
+	MyButton saveButton=new MyButton("±£´æ",saveIcon);
+	MyButton delButton=new MyButton("É¾³ı",delIcon);
 
 	JTextField nameTextField=new JTextField(30);
 	JTextField addressTextField=new JTextField(30);
@@ -40,25 +40,25 @@ public class ToDoListFrame extends JFrame{
 	ArrayList<String> timeSetItems=new ArrayList<String>();
 	JComboBox<String>timeStartComboBox;
 	JComboBox<String>timeFinishComboBox;
-	JCheckBox isAllDayBox=new JCheckBox("å…¨å¤©");
+	JCheckBox isAllDayBox=new JCheckBox("È«Ìì");
 
 	JTextArea detailTextArea=new JTextArea();
 	JScrollPane scrollPane=new JScrollPane(detailTextArea);
-	String[] comboItems= {"æ— ","å‡†æ—¶","æå‰5åˆ†é’Ÿ","æå‰10åˆ†é’Ÿ","æå‰15åˆ†é’Ÿ","æå‰30åˆ†é’Ÿ","æå‰1å°æ—¶","æå‰2å°æ—¶","æå‰5å°æ—¶","æå‰12å°æ—¶","æå‰1å¤©"};
-	int[] earlyTime= {-1,0,5,10,15,30,60,120,300,720,1440};//å¯¹åº”çš„æå‰æ—¶é—´ï¼ˆåˆ†é’Ÿï¼‰
+	String[] comboItems= {"ÎŞ","×¼Ê±","ÌáÇ°5·ÖÖÓ","ÌáÇ°10·ÖÖÓ","ÌáÇ°15·ÖÖÓ","ÌáÇ°30·ÖÖÓ","ÌáÇ°1Ğ¡Ê±","ÌáÇ°2Ğ¡Ê±","ÌáÇ°5Ğ¡Ê±","ÌáÇ°12Ğ¡Ê±","ÌáÇ°1Ìì"};
+	int[] earlyTime= {-1,0,5,10,15,30,60,120,300,720,1440};//¶ÔÓ¦µÄÌáÇ°Ê±¼ä£¨·ÖÖÓ£©
 
 	JComboBox<String> alarmComboBox=new JComboBox<String>(comboItems);
 
 	Color titlebarColor=new Color(232,232,232);
-	JLabel errorLabel=new JLabel("æ—¥æœŸæ ¼å¼é”™è¯¯ï¼");
+	JLabel errorLabel=new JLabel("ÈÕÆÚ¸ñÊ½´íÎó£¡");
 	MonthView monthView;
 
 	int memoID;
-	//id(-1è¡¨ç¤ºæ–°å¢)
+	//id(-1±íÊ¾ĞÂÔö)
 	public ToDoListFrame(String titleString,MonthView mv,int id) {
 		monthView=mv;
 		memoID=id;
-		//ç”Ÿæˆæ—¶é—´åˆ—è¡¨
+		//Éú³ÉÊ±¼äÁĞ±í
 		for(int h=0;h<24;h++) {
 			for(int m=0;m<60;m+=30) {
 				timeSetItems.add(String.format("%02d:%02d",h,m));
@@ -74,22 +74,22 @@ public class ToDoListFrame extends JFrame{
 		verticalBox.add(titleBox);
 
 
-		//æ ‡é¢˜æ 
+		//±êÌâÀ¸
 		saveButton.setPreferredSize(new Dimension(80, 40));
 		saveButton.setColor(titlebarColor);
 		delButton.setPreferredSize(new Dimension(80, 40));
 		delButton.setColor(titlebarColor);
 
 		JLabel imgLabel=new JLabel(new ImageIcon("./src/icon/alarm.png"));
-		JLabel remindLabel=new JLabel("æé†’ï¼š");
-		remindLabel.setFont(new Font("å¾®è½¯é›…é»‘", 0, 15));
+		JLabel remindLabel=new JLabel("ÌáĞÑ£º");
+		remindLabel.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 15));
 		alarmComboBox.setMaximumSize(alarmComboBox.getPreferredSize());
-		alarmComboBox.setFont(new Font("å¾®è½¯é›…é»‘", 0, 12));
+		alarmComboBox.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 12));
 
-		//ä¿å­˜æŒ‰é’®
+		//±£´æ°´Å¥
 		titleBox.add(saveButton);
 		saveButton.addActionListener(new ButtonActionListener());
-		//åˆ é™¤æŒ‰é’®
+		//É¾³ı°´Å¥
 		titleBox.add(delButton);
 		delButton.addActionListener(new ButtonActionListener());
 
@@ -103,52 +103,52 @@ public class ToDoListFrame extends JFrame{
 		titleBox.add(Box.createHorizontalGlue());
 		//titleBox.add(Box.createVerticalStrut(20));
 
-		//è¾“å…¥æ¡†
-		//æ ‡é¢˜
+		//ÊäÈë¿ò
+		//±êÌâ
 		Box nameEditBox=Box.createHorizontalBox();
 		nameEditBox.add(Box.createHorizontalStrut(10)); 
-		JLabel nameLabel=new JLabel("æ ‡é¢˜");
-		nameLabel.setFont(new Font("å¾®è½¯é›…é»‘", Font.BOLD, 18));
+		JLabel nameLabel=new JLabel("±êÌâ");
+		nameLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 18));
 		nameEditBox.add(nameLabel);
 		nameEditBox.add(Box.createHorizontalStrut(5)); 
 		nameEditBox.add(nameTextField);
 		nameEditBox.add(Box.createVerticalStrut(30)); 
-		nameTextField.setFont(new Font("å¾®è½¯é›…é»‘", 0, 15));
+		nameTextField.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 15));
 		nameTextField.setMaximumSize(nameTextField.getPreferredSize());
 		nameTextField.addFocusListener(
-				new JTextFieldHintListener(nameTextField, "è¯·è¾“å…¥äº‹ä»¶æ ‡é¢˜"));
+				new JTextFieldHintListener(nameTextField, "ÇëÊäÈëÊÂ¼ş±êÌâ"));
 
-		//åœ°ç‚¹
+		//µØµã
 		Box addressEditBox=Box.createHorizontalBox();
 		addressEditBox.add(Box.createHorizontalStrut(10)); 
-		JLabel addressLabel=new JLabel("åœ°ç‚¹");
-		addressLabel.setFont(new Font("å¾®è½¯é›…é»‘", Font.BOLD, 18));
+		JLabel addressLabel=new JLabel("µØµã");
+		addressLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 18));
 		addressEditBox.add(addressLabel);
 		addressEditBox.add(Box.createHorizontalStrut(5)); 
 		addressEditBox.add(addressTextField);
 		addressEditBox.add(Box.createVerticalStrut(30)); 
-		addressTextField.setFont(new Font("å¾®è½¯é›…é»‘", 0, 15));
+		addressTextField.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 15));
 		addressTextField.setMaximumSize(addressTextField.getPreferredSize());
 		addressTextField.addFocusListener(
-				new JTextFieldHintListener(addressTextField, "è¯·è¾“å…¥åœ°å€"));
+				new JTextFieldHintListener(addressTextField, "ÇëÊäÈëµØÖ·"));
 
-		//å¼€å§‹æ—¶é—´
+		//¿ªÊ¼Ê±¼ä
 		Box beginDateBox=Box.createHorizontalBox();
 		beginDateBox.add(Box.createHorizontalStrut(10)); 
-		JLabel beginLabel=new JLabel("å¼€å§‹");
-		beginLabel.setFont(new Font("å¾®è½¯é›…é»‘", Font.BOLD, 18));
+		JLabel beginLabel=new JLabel("¿ªÊ¼");
+		beginLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 18));
 		beginDateBox.add(beginLabel);
 		beginDateBox.add(Box.createHorizontalStrut(5)); 
 		beginDateBox.add(beginTextField);
 		beginDateBox.add(Box.createVerticalStrut(30)); 
-		beginTextField.setFont(new Font("å¾®è½¯é›…é»‘", 0, 15));
+		beginTextField.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 15));
 		beginTextField.setMaximumSize(beginTextField.getPreferredSize());
 		beginTextField.addFocusListener(
 				new JTextFieldHintListener(beginTextField, this.getTitle()));
 
 		timeStartComboBox =new JComboBox<String>(timeSetItems.toArray(new String[0]));
 		timeStartComboBox.setMaximumSize(timeStartComboBox.getPreferredSize());
-		timeStartComboBox.setFont(new Font("å¾®è½¯é›…é»‘", 0, 14));
+		timeStartComboBox.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 14));
 		timeStartComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -159,13 +159,13 @@ public class ToDoListFrame extends JFrame{
 
 		errorLabel.setMaximumSize(errorLabel.getPreferredSize());
 
-		//é”™è¯¯æç¤º
+		//´íÎóÌáÊ¾
 		errorLabel.setForeground(Color.RED);
 		beginDateBox.add(errorLabel);
 		errorLabel.setVisible(false);
 
 		//beginDateBox.add(Box.createHorizontalStrut(10)); 
-		//å…¨å¤©å¤é€‰æ¡†
+		//È«Ìì¸´Ñ¡¿ò
 		isAllDayBox.setOpaque(false);
 		isAllDayBox.setFocusPainted(false);
 		isAllDayBox.addActionListener(new ActionListener() {
@@ -189,33 +189,33 @@ public class ToDoListFrame extends JFrame{
 		beginDateBox.add(isAllDayBox);
 		beginDateBox.add(Box.createHorizontalStrut(80)); 
 
-		//ç»“æŸæ—¶é—´
+		//½áÊøÊ±¼ä
 		Box endDateBox=Box.createHorizontalBox();
 		endDateBox.add(Box.createHorizontalStrut(10)); 
-		JLabel endLabel=new JLabel("ç»“æŸ");
-		endLabel.setFont(new Font("å¾®è½¯é›…é»‘", Font.BOLD, 18));
+		JLabel endLabel=new JLabel("½áÊø");
+		endLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 18));
 		endDateBox.add(endLabel);
 		endDateBox.add(Box.createHorizontalStrut(5)); 
 		endDateBox.add(endTextField);
 		endDateBox.add(Box.createVerticalStrut(30)); 
-		endTextField.setFont(new Font("å¾®è½¯é›…é»‘", 0, 15));
+		endTextField.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 15));
 		endTextField.setMaximumSize(endTextField.getPreferredSize());
 		endTextField.addFocusListener(
 				new JTextFieldHintListener(endTextField, this.getTitle()));
 
 		timeFinishComboBox =new JComboBox<String>(timeSetItems.toArray(new String[0]));
 		timeFinishComboBox.setMaximumSize(timeFinishComboBox.getPreferredSize());
-		timeFinishComboBox.setFont(new Font("å¾®è½¯é›…é»‘", 0, 14));
+		timeFinishComboBox.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 14));
 		timeFinishComboBox.setSelectedIndex(1);
 		endDateBox.add(timeFinishComboBox);
 		endDateBox.add(Box.createRigidArea(isAllDayBox.getMaximumSize()));
 		endDateBox.add(Box.createHorizontalStrut(80)); 
 
-		//äº‹ä»¶è¯¦æƒ…
+		//ÊÂ¼şÏêÇé
 		detailTextArea.setLineWrap(true);
-		detailTextArea.setFont(new Font("å¾®è½¯é›…é»‘", 0, 15));
+		detailTextArea.setFont(new Font("Î¢ÈíÑÅºÚ", 0, 15));
 		detailTextArea.addFocusListener(
-				new JTextFieldHintListener(detailTextArea, "äº‹ä»¶è¯¦æƒ…"));
+				new JTextFieldHintListener(detailTextArea, "ÊÂ¼şÏêÇé"));
 
 		scrollPane.setPreferredSize(new Dimension(200,300));
 
@@ -229,11 +229,11 @@ public class ToDoListFrame extends JFrame{
 		verticalBox.add(Box.createVerticalGlue());
 		//panel.add(Box.createVerticalGlue());
 		//nameEditPanel.setAlignmentX( Component.LEFT_ALIGNMENT);
-		//è®¾ç½®åœ¨å±å¹•çš„ä½ç½®
+		//ÉèÖÃÔÚÆÁÄ»µÄÎ»ÖÃ
 		this.setLocation(150,70);
-		//çª—ä½“å¤§å°
+		//´°Ìå´óĞ¡
 		this.setSize(500,600);
-		//æ˜¾ç¤ºçª—ä½“
+		//ÏÔÊ¾´°Ìå
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -252,22 +252,22 @@ public class ToDoListFrame extends JFrame{
 		long endTimestamp=Long.valueOf(record.get("endTime"));
 		long remindTimestamp=Long.valueOf(record.get("remindTime"));
 
-		//è®¾ç½®æ—¥æœŸ
+		//ÉèÖÃÈÕÆÚ
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 		beginTextField.setText(dateFormat.format(startTimestamp));
 		endTextField.setText(dateFormat.format(endTimestamp));
 
-		//è®¾ç½®æ—¶é—´
+		//ÉèÖÃÊ±¼ä
 		int startIndex=timeSetItems.indexOf(timeFormat.format(startTimestamp));
 		timeStartComboBox.setSelectedIndex(startIndex);
 		int endIndex=timeSetItems.indexOf(timeFormat.format(endTimestamp));
 		timeFinishComboBox.setSelectedIndex(endIndex);
 
-		//è®¾ç½®æé†’
+		//ÉèÖÃÌáĞÑ
 		if(record.get("alarm").contentEquals("1")) {
 			long remindMinutes=(startTimestamp-remindTimestamp)/1000/60;
-			for(int i=0;i<earlyTime.length;i++) {//åŒ¹é…é€‰é¡¹
+			for(int i=0;i<earlyTime.length;i++) {//Æ¥ÅäÑ¡Ïî
 				if(remindMinutes==earlyTime[i]) {
 					alarmComboBox.setSelectedIndex(i);
 				}
@@ -279,9 +279,9 @@ public class ToDoListFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(e.getActionCommand());
-			//ä¿å­˜æŒ‰é’®
-			if(e.getActionCommand().equals("ä¿å­˜")) {
-				//å…ˆæ£€æŸ¥æ—¥æœŸåˆæ³•æ€§
+			//±£´æ°´Å¥
+			if(e.getActionCommand().equals("±£´æ")) {
+				//ÏÈ¼ì²éÈÕÆÚºÏ·¨ĞÔ
 				String startDateStr=beginTextField.getText();
 				String endDateStr=endTextField.getText();
 				Date startDate;
@@ -291,24 +291,24 @@ public class ToDoListFrame extends JFrame{
 					endDate=sdf.parse(endDateStr);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
-					errorLabel.setText("æ—¥æœŸæ ¼å¼é”™è¯¯ï¼");
+					errorLabel.setText("ÈÕÆÚ¸ñÊ½´íÎó£¡");
 					errorLabel.setVisible(true);
 					return;
 				}
 
 				String title=nameTextField.getText();
-				//æ ‡é¢˜ä¸ºç©ºæç¤º
-				if(title.equals("è¯·è¾“å…¥äº‹ä»¶æ ‡é¢˜")) {
+				//±êÌâÎª¿ÕÌáÊ¾
+				if(title.equals("ÇëÊäÈëÊÂ¼ş±êÌâ")) {
 					nameTextField.setForeground(Color.red);
 					return;
 				}
 
 				String address=addressTextField.getText();
-				if(address.equals("è¯·è¾“å…¥åœ°å€")) {
+				if(address.equals("ÇëÊäÈëµØÖ·")) {
 					address="";
 				}
 				String detail=detailTextArea.getText();	
-				if(detail.equals("äº‹ä»¶è¯¦æƒ…")) {
+				if(detail.equals("ÊÂ¼şÏêÇé")) {
 					detail="";
 				}
 				boolean isAllDay=isAllDayBox.isSelected();
@@ -317,21 +317,21 @@ public class ToDoListFrame extends JFrame{
 
 				int remindTime=earlyTime[alarmComboBox.getSelectedIndex()];
 
-				//è®¡ç®—æ—¶é—´æˆ³ï¼ˆæ¯«ç§’ï¼‰
+				//¼ÆËãÊ±¼ä´Á£¨ºÁÃë£©
 				long startTimeStamp=startDate.getTime()+startTimeindex*30*60*1000;
 				long endTimeStamp=endDate.getTime()+endTimeindex*30*60*1000;
 				if(!isAllDay&&startTimeStamp>endTimeStamp) {
-					errorLabel.setText("ç»“æŸæ—¶é—´é¡»å¤§äºå¼€å§‹æ—¶é—´");
+					errorLabel.setText("½áÊøÊ±¼äĞë´óÓÚ¿ªÊ¼Ê±¼ä");
 					errorLabel.setVisible(true);
 					return;
 				}
-				if(isAllDay) {//å…¨å¤©äº‹ä»¶
+				if(isAllDay) {//È«ÌìÊÂ¼ş
 					startTimeStamp=startDate.getTime();
 					endTimeStamp=startTimeStamp+24*60*60*1000-1;
 				}
 				long remindTimeStamp=startTimeStamp-remindTime*60*1000;
 
-				//ä¸æé†’
+				//²»ÌáĞÑ
 				if(remindTime==-1) {
 					remindTimeStamp=startTimeStamp;
 				}
@@ -344,13 +344,13 @@ public class ToDoListFrame extends JFrame{
 				newRecord.put("endTime",String.valueOf(endTimeStamp));
 				newRecord.put("remindTime",String.valueOf(remindTimeStamp));
 				newRecord.put("alarm",String.valueOf(remindTime==-1?"0":"1"));
-				newRecord.put("editTime",String.valueOf(System.currentTimeMillis()));//ä¿®æ”¹æ—¶é—´
+				newRecord.put("editTime",String.valueOf(System.currentTimeMillis()));//ĞŞ¸ÄÊ±¼ä
 				
-				//å†™å…¥æ•°æ®åº“
-				if(memoID==-1) {//æ–°å¢
-					//æœ¬åœ°å†™å…¥
+				//Ğ´ÈëÊı¾İ¿â
+				if(memoID==-1) {//ĞÂÔö
+					//±¾µØĞ´Èë
 					int result=LocalStorage.Obj.addRecord(newRecord);
-					//æ•°æ®åº“å†™å…¥
+					//Êı¾İ¿âĞ´Èë
 					try {
 						CalendarClient.Obj.addRecord(newRecord);
 					}catch (Exception e1) {
@@ -358,20 +358,20 @@ public class ToDoListFrame extends JFrame{
 					}
 					if(result!=-1) {
 						memoID=result;
-						//å¯åŠ¨è®¡æ—¶å™¨
+						//Æô¶¯¼ÆÊ±Æ÷
 						if(remindTime!=-1) {
 							timer.addTimer(memoID, remindTimeStamp, title, address, startTimeStamp, endTimeStamp);
 						}
 					} else{
 						memoID=-1;
-						System.out.println("æ–°å¢è®°å½•å¤±è´¥");
+						System.out.println("ĞÂÔö¼ÇÂ¼Ê§°Ü");
 					}
-				}else {//ä¿®æ”¹
+				}else {//ĞŞ¸Ä
 					timer.cancelTimer(memoID);
 					newRecord.put("memoID",String.valueOf(memoID));
-					//æœ¬åœ°å†™å…¥
+					//±¾µØĞ´Èë
 					LocalStorage.Obj.updateRecord(memoID, newRecord);
-					//æ•°æ®åº“å†™å…¥
+					//Êı¾İ¿âĞ´Èë
 					try{
 						CalendarClient.Obj.updateRecord(newRecord);
 					}catch (Exception e2) {
@@ -381,24 +381,24 @@ public class ToDoListFrame extends JFrame{
 						timer.addTimer(memoID, remindTimeStamp, title, address, startTimeStamp, endTimeStamp);
 					}
 				}
-				//åˆ·æ–°ç•Œé¢
+				//Ë¢ĞÂ½çÃæ
 				monthView.setCalendar(monthView.calender);
 				LeftPanel.leftPanel.setTaskList();
 				dispose();
 			}
 			
-			//åˆ é™¤æŒ‰é’®
-			else if (e.getActionCommand().equals("åˆ é™¤")) {
+			//É¾³ı°´Å¥
+			else if (e.getActionCommand().equals("É¾³ı")) {
 				timer.cancelTimer(memoID);
-				//æœ¬åœ°åˆ é™¤
+				//±¾µØÉ¾³ı
 				LocalStorage.Obj.deleteRecord(memoID);
-				//æ•°æ®åº“åˆ é™¤
+				//Êı¾İ¿âÉ¾³ı
 				try {
 					CalendarClient.Obj.deleteRecord(memoID);
 				}catch (Exception e2) {
 					System.out.println("Connect To Server Failed!");
 				}
-				//åˆ·æ–°ç•Œé¢
+				//Ë¢ĞÂ½çÃæ
 				monthView.setCalendar(monthView.calender);
 				LeftPanel.leftPanel.setTaskList();
 				dispose();
@@ -413,14 +413,14 @@ public class ToDoListFrame extends JFrame{
 		public JTextFieldHintListener(JTextComponent jTextField,String hintText) {
 			this.textField = jTextField;
 			this.hintText = hintText;
-			jTextField.setText(hintText);  //é»˜è®¤ç›´æ¥æ˜¾ç¤º
+			jTextField.setText(hintText);  //Ä¬ÈÏÖ±½ÓÏÔÊ¾
 			jTextField.setForeground(Color.GRAY);
 		}
 
 		@Override
 		public void focusGained(FocusEvent e) {
 			errorLabel.setVisible(false);
-			//è·å–ç„¦ç‚¹æ—¶ï¼Œæ¸…ç©ºæç¤ºå†…å®¹
+			//»ñÈ¡½¹µãÊ±£¬Çå¿ÕÌáÊ¾ÄÚÈİ
 			String temp = textField.getText();
 			if(temp.equals(hintText)) {
 				textField.setText("");
@@ -430,7 +430,7 @@ public class ToDoListFrame extends JFrame{
 
 		@Override
 		public void focusLost(FocusEvent e) {	
-			//å¤±å»ç„¦ç‚¹æ—¶ï¼Œæ²¡æœ‰è¾“å…¥å†…å®¹ï¼Œæ˜¾ç¤ºæç¤ºå†…å®¹
+			//Ê§È¥½¹µãÊ±£¬Ã»ÓĞÊäÈëÄÚÈİ£¬ÏÔÊ¾ÌáÊ¾ÄÚÈİ
 			String temp = textField.getText();
 			if(temp.equals("")) {
 				textField.setForeground(Color.GRAY);

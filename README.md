@@ -7,8 +7,8 @@ This is a desktop Calendar application written by Java.
 
 > :warning:由于服务端采用sqlite存储，须提前在`./sqlite`目录下新建`todolist.db`数据库文件。
 >
-> 1. 双击`runServer.cmd`启动服务器
-> 2. 双击`runClient.cmd`启动客户端主程序（服务器未连接也可本地运行）
+> 1. 双击`runServer.cmd`编译并启动服务器
+> 2. 双击`runClient.cmd`编译并启动客户端主程序（服务器未连接也可本地运行）
 
 - 主界面
 
