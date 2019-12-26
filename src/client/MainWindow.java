@@ -46,6 +46,7 @@ public class MainWindow extends JFrame
 				cal.get(Calendar.YEAR), 
 				cal.get(Calendar.MONTH)+1, 
 				cal.get(Calendar.DATE), true);
+		if(lunarDay.contains("月"))lunarDay="初一";
 		lunarLabel.setText("  农历"+lc.getLunarMonth()+lunarDay);
 		up.add(lunarLabel);
 
